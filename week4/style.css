@@ -1,0 +1,65 @@
+body {
+  font-family: "Rubik", "PingFang TC", "Heiti", "黑體", "微軟正黑體", "Heiti TC",
+    "黑體-繁", "SF Pro TC", "SF Pro Text";
+}
+
+.toolbar {
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.thumb-img {
+  width: 50px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.white{
+  color: #fff;
+}
+
+img {
+  max-width: 100%;
+}
+
+table th {
+  padding-right: 30px;
+}
+
+.modal-body .form-group table td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
+.full-bg{
+  height: 100vh;
+  background-color: #a0d6aa;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.white-bg .top,
+.full-bg .top{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  min-height: 60px;
+  padding: 15px 30px;
+  color: #ffffff;
+  background: #90bd98;
+  font-size: 18px;
+} 
+.white-bg{    
+  background-color: #fff;
+  min-height: 100vh; 
+  align-items: center;
+  position: relative;
+  padding-top: 100px;
+}

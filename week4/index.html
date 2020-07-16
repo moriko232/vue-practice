@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>第四週主線：登入及後台CRUD (登入)</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+  <!-- partial:index.partial.html -->
+  <div id="app">
+    <div class="full-bg">
+      <div class="top">
+        <h3>皂皂市集管理後台</h3>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class=" col-4 justify-content-center m-auto white">
+            <h1 class="text-center mb-3 font-weight-bold">會員登入</h1>
+            <form @submit.prevent="login">
+              <input type="email" class="form-control" v-model="user.email" placeholder="帳號(Email)" required autofocus @input="clearMessage">
+              <input type="password" class="form-control" v-model="user.password" placeholder="密碼" @input="clearMessage" required>
+              <button class="btn btn-dark form-control" type="submit">登入</button>
+            </form>
+
+            <div v-if="errorMessage" class="alert alert-danger" role="alert">
+              {{errorMessage}}
+            </div>
+
+            <div v-if="successMessage" class="alert alert-success" role="alert">
+              {{successMessage}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5"></div>
+    </div>
+  </div>
+  <!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha1/js/bootstrap.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.2/umd/popper.min.js'></script>
+  <script src="./script.js"></script>
+
+</body>
+
+</html>
