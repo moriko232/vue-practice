@@ -34,34 +34,12 @@ var app = new Vue({
       id: '',
       title: ''
     },
-    shopDatas: [
-      // {
-      //   id: "UH1ou8HI2yBUPMPml079fgFiX9DGeoRQUJOkXWQr9Yl4W9ZsAey7oLh7WXIqX4A9",
-      //   title: "馬賽皂",
-      //   category: "手工皂",
-      //   content: "乾敏~一般肌膚可用",
-      //   imageUrl:
-      //     "https://images.unsplash.com/photo-1593243878364-e11fe56a3f01?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-      //   enabled: true,
-      //   origin_price: 350,
-      //   price: 350,
-      //   unit: "單位",
-      //   options: {
-      //     isStar: false
-      //   }
-      // },
-    ],
+    shopDatas: [],
     baseData: {
       imageUrl: [],
-      // options: {
-      //   isStar: false
-      // }
     },
     tempData: {
       imageUrl: [],
-      // options: {
-      //   isStar: false
-      // }
     }
   },
   created() {

@@ -29,9 +29,7 @@
           <tr>
             <th>序號</th>
             <th>產品名稱</th>
-            <!-- <th>精選</th> -->
             <th>商品上架</th>
-            <!-- <th>縮圖</th> -->
             <th>商品分類</th>
             <th>原價</th>
             <th>售價</th>
@@ -40,14 +38,6 @@
           <tr v-for="shopData,index in shopDatas" :key="shopData.id">
             <td>{{(pagination.current_page-1)*25+index+1}}</td>
             <td>{{shopData.title}}</td>
-            <!-- <td>
-              <template v-if="shopData.options.isStar">
-                <span class="text-success">是</span>
-              </template>
-              <template v-else>
-                <span>否</span>
-              </template>
-            </td> -->
             <td>
               <template v-if="shopData.enabled">
                 <span class="text-success">是</span>
@@ -56,19 +46,6 @@
                 <span>否</span>
               </template>
             </td>
-            <!-- <td>
-              <template v-if="shopData.imageUrl">
-                <template>
-                  <div>
-                    
-                  </div>
-                </template>
-                <img class="thumb-img" :src="shopData.imageUrl" alt="">
-              </template>
-              <template v-else>
-                <span>沒圖片</span>
-              </template>
-            </td> -->
             <td>{{shopData.category}}</td>
             <td>{{shopData.origin_price}}</td>
             <td>{{shopData.price}}</td>
@@ -191,16 +168,6 @@
                             <input type="text" class="form-control" v-model="tempData.description" placeholder="敘述">
                           </td>
                         </tr>
-                        <!-- <tr>
-                          <th>加精選</th>
-                          <td>
-                            <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitches2"
-                                v-model="tempData.options.isStar">
-                              <label class="custom-control-label" for="customSwitches2"></label>
-                            </div>
-                          </td>
-                        </tr> -->
                       </table>
                       <hr>
                       <div class="mb-3"><b>圖片網址</b></div>
@@ -284,10 +251,10 @@
   </nav>
 </script>
 
-<script src="./backend.js"></script>
-<script>
-  
-</script>
+  <script src="./backend.js"></script>
+  <script>
+
+  </script>
 
 
 
