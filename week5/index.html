@@ -5,12 +5,17 @@
   <meta charset="UTF-8">
   <title>第五週主線：驗證</title>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css'>
+  <link href="https://cdn.jsdelivr.net/npm/vue-loading-overlay@3/dist/vue-loading.css" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 
 </head>
 
 <body>
   <div id="app">
+
+    <!-- loading 套件 start -->
+    <loading :active.sync="isLoading"></loading>
+    <!-- loading 套件 end -->
 
     <!-- partial:index.partial.html -->
     <header class="container mt-3">
@@ -48,13 +53,7 @@
         <template>
           <div class="row justify-content-between">
             <div class="col-6">
-              <h2>購物清單
-                <span v-if="isLoading">
-                  <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                </span>
-              </h2>
+              <h2>購物清單</h2>
             </div>
             <div v-if="shopCart.length" class="col-6 text-right">
               <button class="btn btn-danger" @click="deleteCartAll()">清空購物車</button>
@@ -75,7 +74,7 @@
                     <td>{{item.product.title}}</td>
                     <td>
                       <div class="qty">
-                        <input type="number" name="qty" class="count" :value="item.quantity" step="1"
+                        <input class="form-control" type="number" name="qty" class="count" :value="item.quantity" step="1"
                           @input="editCart(item.product.id, $event.target.value)">
                       </div>
                     </td>
@@ -151,15 +150,8 @@
                   </div>
                   <br>
 
-                  <template v-if="isLoading">
-                    <div class="spinner-border" role="status">
-                      <span class="sr-only">Loading...</span>
-                    </div>
-                  </template>
-                  <template v-else>
-                    <input :class="" class="btn btn-info" :disabled="invalid || !shopCart.length" type="submit"
-                      value="確認訂購">
-                  </template>
+                  <input :class="" class="btn btn-info" :disabled="invalid || !shopCart.length || isLoading"
+                    type="submit" value="確認訂購">
 
                 </form>
               </validation-observer>
@@ -234,15 +226,12 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha1/js/bootstrap.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.2/umd/popper.min.js'></script>
 
+
+  <!-- vee validate -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/3.3.0/vee-validate.full.min.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/3.3.0/vee-validate.full.min.js"></script>
-  <script type="module">
-
-  </script>
-
-
-
+  <!-- loading -->
+  <script src="https://cdn.jsdelivr.net/npm/vue-loading-overlay@3"></script>
 
   <script type="module" src="./script.js"></script>
 </body>

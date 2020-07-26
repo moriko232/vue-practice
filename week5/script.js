@@ -15,6 +15,10 @@ Vue.component('ValidationProvider', VeeValidate.ValidationProvider);
 
 Vue.component('ValidationObserver', VeeValidate.ValidationObserver);
 
+//Loading
+Vue.use(VueLoading);
+Vue.component('loading', VueLoading);
+
 const uuid = "31e50ae2-761f-42e4-b9da-0c081fdb851d";
 const getProductUrl = `https://course-ec-api.hexschool.io/api/${uuid}/ec/products`;
 const editShopCartUrl = `https://course-ec-api.hexschool.io/api/${uuid}/ec/shopping`;
@@ -64,12 +68,14 @@ var app = new Vue({
       this.messageModelOpen = false
     },
     sendOrderApi() {
+      this.isLoading = true
       axios
         .post(sendOrderUrl, this.customer)
         .then((res) => {
-            this.openMessage('已收到您的訂單!')
-            this.getShopCartApi()
+          this.getShopCartApi()
           this.shopCart = [];
+          this.isLoading = false
+          this.openMessage('已收到您的訂單!')
         })
         .catch(function (err) {
           console.log("err", err);
@@ -135,8 +141,6 @@ var app = new Vue({
         });
     },
     addToCart(item, quantity = 1) {
-      // const order = this.isAlreadyInCart(item.id)
-
       this.isLoading = true
       const data = {
         product: item.id,

@@ -124,3 +124,6 @@ form h3{
   cursor: no-drop;
   background-color: #999;
 }
+.qty{
+  max-width: 200px;
+}
