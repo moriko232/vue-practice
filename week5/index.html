@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>第五週主線：驗證</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- partial:index.partial.html -->
+    <header class="container mt-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <h1>皂皂市集</h1>
+        <nav class="main-menu">
+          <li>
+            <a href="#">產品列表</a>
+          </li>
+          <li>
+            <a href="#">聯絡我們</a>
+          </li>
+          <li>
+            <a href="#">購物車</a>
+          </li>
+        </nav>
+      </div>
+
+    </header>
+    <nav class="sub-menu-wrap">
+      <div class="container">
+        <ul class="sub-menu">
+          <li>
+            <a href="#">手工皂</a>
+          </li>
+          <li>
+            <a href="#">優惠組合</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="main-content">
+      <div class="container">
+
+        <template>
+          <div class="row justify-content-between">
+            <div class="col-6">
+              <h2>購物清單
+                <span v-if="isLoading">
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </span>
+              </h2>
+            </div>
+            <div v-if="shopCart.length" class="col-6 text-right">
+              <button class="btn btn-danger" @click="deleteCartAll()">清空購物車</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <table class="table mb-3">
+                <tr>
+                  <th>品名</th>
+                  <th>數量</th>
+                  <th>價格</th>
+                  <th class="text-right">小計</th>
+                  <th> </th>
+                </tr>
+                <template v-for="item in shopCart">
+                  <tr>
+                    <td>{{item.product.title}}</td>
+                    <td>
+                      <div class="qty">
+                        <input type="number" name="qty" class="count" :value="item.quantity" step="1"
+                          @input="editCart(item.product.id, $event.target.value)">
+                      </div>
+                    </td>
+                    <td>{{item.product.price}}</td>
+                    <td class="text-right">{{item.product.price * item.quantity}}</td>
+                    <td class="text-right">
+                      <button class="btn btn-danger" @click="deleteCartItem(item.product.id)">刪除</button>
+                    </td>
+                  </tr>
+                </template>
+
+                <template v-if="shopCart.length">
+                  <tr>
+                    <td>總計</td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">{{total}}</td>
+                    <td></td>
+                  </tr>
+                </template>
+                <template v-else>
+                  <tr>
+                    <td colspan="5" class="text-center">購物尚無商品</td>
+                  </tr>
+                </template>
+
+              </table>
+
+              <div>
+                <h2>填寫資料</h2>
+              </div>
+              <validation-observer v-slot="{ invalid,handleSubmit }">
+                <form action="" class="form" @submit.prevent="handleSubmit(sendOrderApi)">
+                  <validation-provider rules="required" v-slot="{ errors, classes }">
+                    <h3>收件人姓名</h3>
+                    <input name="收件人姓名" v-model="customer.name" class="form-control" :class="classes">
+                    <span :class="classes">{{ errors[0] }}</span>
+                  </validation-provider>
+                  <validation-provider rules="required|email" v-slot="{ errors, classes }">
+                    <h3>Email</h3>
+                    <input type="email" name="email" v-model="customer.email" class="form-control" :class="classes">
+                    <span :class="classes">{{ errors[0] }}</span>
+                  </validation-provider>
+                  <validation-provider rules="required|min:8" v-slot="{ errors, classes }">
+                    <h3>電話</h3>
+                    <input name="電話" v-model="customer.tel" class="form-control" :class="classes">
+                    <span :class="classes">{{ errors[0] }}</span>
+                  </validation-provider>
+                  <validation-provider rules="required" v-slot="{ errors, classes }">
+                    <h3>地址</h3>
+                    <input name="地址" v-model="customer.address" class="form-control" :class="classes">
+                    <span :class="classes">{{ errors[0] }}</span>
+                  </validation-provider>
+
+                  <div class="form-item">
+                    <h3>付款方式</h3>
+                    <div class="form-group">
+                      <select class="form-control" v-model="customer.payment">
+                        <option value="WebATM">WebATM</option>
+                        <option value="ATM">ATM</option>
+                        <option value="CVS">CVS</option>
+                        <option value="Barcode">Barcode</option>
+                        <option value="Credit">Credit</option>
+                        <option value="ApplePay">ApplePay</option>
+                        <option value="GooglePay">GooglePay</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-item">
+                    <h3>留言</h3>
+                    <textarea name="" id="" cols="30" rows="10" class="form-control"
+                      v-model="customer.message"></textarea>
+                  </div>
+                  <br>
+
+                  <template v-if="isLoading">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <input :class="" class="btn btn-info" :disabled="invalid || !shopCart.length" type="submit"
+                      value="確認訂購">
+                  </template>
+
+                </form>
+              </validation-observer>
+
+            </div>
+          </div>
+        </template>
+
+
+        <h2 id="products">手工皂</h2>
+        <div id="product-list" class="row">
+          <template v-for="item,index in products">
+            <div class="product-item col-md-4" :key="`item${index}`">
+              <img :src="item.imageUrl[0]">
+              <div class="product-text">
+                <h5 class="title">{{item.title}}</h5>
+                <p class="text">{{item.content}}</p>
+                <div class="text-right">
+                  <p class="price">$ {{item.price}}</p>
+                  <p class="origin-price">原價 $ {{item.origin_price}}</p>
+                </div>
+              </div>
+
+              <span>
+                <button class="add-cart" @click="addToCart(item, 1)">加入購物車 </button>
+              </span>
+          </template>
+        </div>
+      </div>
+      <footer class="footer">
+        圖片取自網路<br>無商業用途，僅供學習使用
+        <b @click="openMessage">bb</b>
+      </footer>
+
+
+      <!-- Modal -->
+      <div class="modal fade bd-example-modal-lg" id="messageModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">
+                系統訊息
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              {{messageText}}
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" @click="closeMessage()">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+    </div>
+
+  </div>
+  <!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha1/js/bootstrap.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.2/umd/popper.min.js'></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/3.3.0/vee-validate.full.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/3.3.0/vee-validate.full.min.js"></script>
+  <script type="module">
+
+  </script>
+
+
+
+
+  <script type="module" src="./script.js"></script>
+</body>
+
+</html>
